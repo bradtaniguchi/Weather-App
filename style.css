@@ -1,0 +1,39 @@
+body{
+    background:azure
+}
+.homeboy{
+    color: pink
+}
+.container{
+    display:grid;
+    justify-content: center;
+}
+/*probably don't need most of these classes but just in case */
+.item{
+    justify-self: center;
+    
+}
+.title{ 
+    
+}
+.city{
+    
+    
+}
+.temp{
+    
+    
+}
+.weather{
+    
+    }
+.logo{
+    
+    }
+.search{
+    text-align: center;
+    } 
+.mylinks{
+    justify-content:center;
+    text-align: center;
+} 
