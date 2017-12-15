@@ -1,9 +1,6 @@
 body{
-    background:azure
 }
-.homeboy{
-    color: pink
-}
+
 .container{
     display:grid;
     justify-content: center;

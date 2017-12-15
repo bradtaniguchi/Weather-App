@@ -4,17 +4,19 @@ var classApp = angular.module("weatherApp", []);
 var replace = "before replacement"
 
 classApp.controller("weatherCtrl", async function ($scope, $http){    
-    
-$scope.info = {
-    local: replace,
-    temp: "to be declared then changed",
-    weather: "to be declared then changed",
-    graphic: "to be declared then changed",
-    }
-    
-    }//controller wrapping bracket
-    )//should match to controller 
-// SHOULD THE WHOLE THING BE CONTAINIED WITHIN THE CONTROLLER?
+
+var controllerUpdate = async function(){
+    $scope.info = {
+        local: await localNew,
+        temp: await tempNew,
+        weather: await weatherNew,
+        graphic: await graphicNew,
+        }
+        
+        }//controller wrapping bracket
+        //should match to controller 
+    // SHOULD THE WHOLE THING BE CONTAINIED WITHIN THE CONTROLLER?
+    })
 const promises = [
 
 
@@ -42,16 +44,20 @@ init().then((data) => {
     
         $.get(apiURL, function(weatherData){
             console.log("this is happening now " +weatherData.name);// logging [object Object]
-            local = weatherData.name;   
-            temp = weatherData.main.temp;
-            weather = weatherData.weather.main;
-            graphic = "what";   
-            return (weatherData); 
+            var localNew = weatherData.name;   
+            var tempNew = weatherData.main.temp;
+            var weatherNew = weatherData.weather.main;
+            var graphicNew = "what";   
+            return (weatherData, localNew, tempNew, weatherNew, graphicNew); 
+            console.log("Still functioning now " +weatherData.main);
 
         })
     }
     
 )
+
+
+
 /*
 .then((weatherData) => {
     console.log("at end " +weatherData.name);//weatherData is undefined
