@@ -1,26 +1,31 @@
-//NOTES This is a restart on the project just trying to get it done
+//NOTES for anyone joining me here in this task, My main issue is with the interpolation and databinding
+//I am able to get the information I want from the different APIs (as you can see printing out into the console) but
+//I don't know how to make Angular repaint it all
+
+//possible issues:
+//      - arising from my misunderstanding of $scope.$apply()
+//      - the whole thing needs to be wrapped in the controller and $scope.$apply should be added.
+
+
+//PLEASE let me know if you have any suggestions that can help me update the page information 
 
 var classApp = angular.module("weatherApp", []);
-var replace = "before replacement"
+var replaceLocal = "before replacement";
+var replaceTemp = "before replacement";
+var replaceWeather = "before replacement";
+var replaceGraphic = "before replacement";
 
-classApp.controller("weatherCtrl", async function ($scope, $http){    
-
-var controllerUpdate = async function(){
-    $scope.info = {
-        local: await localNew,
-        temp: await tempNew,
-        weather: await weatherNew,
-        graphic: await graphicNew,
+classApp.controller("weatherCtrl", function ($scope, $http){    
+var vm = $scope;
+    vm.info = function(){
+        vm.info = {
+        local:  replaceLocal,
+        temp:  replaceTemp,
+        weather:  replaceWeather,
+        graphic:  replaceGraphic,
         }
-        
-        }//controller wrapping bracket
-        //should match to controller 
-    // SHOULD THE WHOLE THING BE CONTAINIED WITHIN THE CONTROLLER?
-    })
-const promises = [
-
-
-]
+    }
+   
 function init(){return new Promise (function (resolve, reject){
     resolve(
         $.get("http://freegeoip.net/json/",function(data){
@@ -41,46 +46,28 @@ init().then((data) => {
     return (apiURL);
 })
 .then((apiURL) => {
-    
+    $scope.$apply(function(weatherData){
+        
         $.get(apiURL, function(weatherData){
             console.log("this is happening now " +weatherData.name);// logging [object Object]
-            var localNew = weatherData.name;   
-            var tempNew = weatherData.main.temp;
-            var weatherNew = weatherData.weather.main;
-            var graphicNew = "what";   
-            return (weatherData, localNew, tempNew, weatherNew, graphicNew); 
-            console.log("Still functioning now " +weatherData.main);
-
+            replaceLocal =weatherData.name;   
+            replaceTemp = weatherData.main.temp;
+            replaceWeather = weatherData.weather.main;
+            replaceGraphic = "what";   
+            console.log("Still functioning now " +weatherData.main.temp);
+            console.log("new variables are " + replaceLocal + " " + replaceTemp);
+            return replaceLocal, replaceTemp, replaceWeather, replaceGraphic;
         })
-    }
+    })
+        })
+            console.log("this is happening now outside of all but still in controller:  " +replaceLocal)
+        
     
-)
+
+
+     }//controller wrapping bracket
+)//controller wrapping parenthesis
 
 
 
-/*
-.then((weatherData) => {
-    console.log("at end " +weatherData.name);//weatherData is undefined
-    return weatherData;
-    return info.local = "Post update text here"
 
-}
-)
-*/
-Promise.all//end of promises returning all the information properly - now have to make it plug into the interpolated stuff
-
-function getNewWeather(input){
-    //then call the whole thing with
-
-    //make sure to call the function on click after the button is clicked
-    //getNewWeather()
-}
-
-
-    //DO THE ABOVE TWO LINES BELONG HERE OR AT THE VERY BOTTOM????
-//after you have it all functioning go back and change the lat and lon (or in the new version write so that)
-//it takes the city from the initial coords api hit OR the search box and returns the results from that hitting 
-//the weather update api site
-
-
-//gotta push this shit to git
