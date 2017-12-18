@@ -7,67 +7,80 @@
 //      - the whole thing needs to be wrapped in the controller and $scope.$apply should be added.
 
 
-//PLEASE let me know if you have any suggestions that can help me update the page information 
+//PLEASE let me know if you have any suggestions that can help me update the page information
 
 var classApp = angular.module("weatherApp", []);
-var replaceLocal = "before replacement";
-var replaceTemp = "before replacement";
-var replaceWeather = "before replacement";
-var replaceGraphic = "before replacement";
-
-classApp.controller("weatherCtrl", function ($scope, $http){    
-var vm = $scope;
-    vm.info = function(){
+// this will not suvive minification, use a different, minification safe way to inject services
+classApp.controller("weatherCtrl", function ($http) {
+        var vm = this;
         vm.info = {
-        local:  replaceLocal,
-        temp:  replaceTemp,
-        weather:  replaceWeather,
-        graphic:  replaceGraphic,
+            local: 'local before replace',
+            temp: 'temp before replace',
+            weather: 'weather before replace',
+            graphic: 'graphic before replace',
         }
-    }
-   
-function init(){return new Promise (function (resolve, reject){
-    resolve(
-        $.get("http://freegeoip.net/json/",function(data){
-    return (data)})
-)
-}
-)}
+        vm.$onInit = init;
+        return vm;
 
-init().then((data) => {
-    console.log(data);
-    lat = data.latitude;
-    lon = data.longitude;
-    apiKey = "249aae0cc107073d30a1116d9ab51734";
-//eventually this  apiKey needs to be removed from the script and 
-    apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
-    console.log("lat = " + lat + "lon = " + lon);
-    console.log("this is the url to try: " + apiURL);
-    return (apiURL);
-})
-.then((apiURL) => {
-    $scope.$apply(function(weatherData){
-        
-        $.get(apiURL, function(weatherData){
-            console.log("this is happening now " +weatherData.name);// logging [object Object]
-            replaceLocal =weatherData.name;   
-            replaceTemp = weatherData.main.temp;
-            replaceWeather = weatherData.weather.main;
-            replaceGraphic = "what";   
-            console.log("Still functioning now " +weatherData.main.temp);
-            console.log("new variables are " + replaceLocal + " " + replaceTemp);
-            return replaceLocal, replaceTemp, replaceWeather, replaceGraphic;
-        })
-    })
-        })
-            console.log("this is happening now outside of all but still in controller:  " +replaceLocal)
-        
-    
+        function init() {
+            getLocation()
+            .then((response) => {
+                var data = response.data;
+                console.log('data', data);
+                var lat = data.latitude;
+                var lon = data.longitude;
+                apiKey = "249aae0cc107073d30a1116d9ab51734";
+                //eventually this  apiKey needs to be removed from the script and
+                var apiURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+                console.log("lat = " + lat + "lon = " + lon);
+                console.log("this is the url to try: " + apiURL);
+                // return the generated api we will use to get the weather
+                return apiURL;
+            })
+            .then((apiURL) => {
+                return $http({
+                    method: 'GET',
+                    url: apiURL
+                }).then((res) => {
+                    // we "unwrap" the data from the response,
+                    // returning from a then automatically converts to a resolved promise.
+                    return res.data;
+                });
+            }).then((weatherData) => {
+                console.log('test: ', weatherData);
+                console.log("this is happening now " + weatherData.name); // logging [object Object]
+                vm.info.local = weatherData.name;
+                vm.info.temp = weatherData.main.temp;
+                vm.info.weather = weatherData.weather.main;
+                vm.info.graphic = "what";
 
-
-     }//controller wrapping bracket
-)//controller wrapping parenthesis
-
-
-
-
+                // the below line isn't correct
+                console.log("Still functioning now " + weatherData.main.temp);
+                console.log("new variables are " + vm.info.local + " " + vm.info.temp);
+            }).catch((err) => {
+                console.error('error', err);
+            })
+        }
+        // makes the second request
+        function getWeather() {
+            return $http({
+                method: 'GET',
+                url: ''
+            });
+        }
+        // makes the first request. The $http services RETURNS a promise, which we will handle in the init function
+        function getLocation() {
+            return $http({
+                method: 'GET',
+                url: 'http://freegeoip.net/json/'
+            });
+            // return new Promise(function (resolve, reject) {
+            //     resolve(
+            //         $.get("http://freegeoip.net/json/", function (data) {
+            //             return (data)
+            //         })
+            //     )
+            // })
+        }
+    } //controller wrapping bracket
+) //controller wrapping parenthesis

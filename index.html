@@ -4,31 +4,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel = "stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
     <script type="text/javascript" src="main.js" ></script>
-    
+
     <link rel="shortcut icon" type="image/png" href="sun.png"/>
     <title>Weather App</title>
 </head>
 <body >
-    <div 
+    <div
     ng-app = "weatherApp"
-    ng-controller = "weatherCtrl"
+    ng-controller = "weatherCtrl as vm"
     class="container">
         <div class = "item title" id="titleId" ><h1>Alex's Weather App</h1></div>
-        <div class = "item city" id="cityId" > <h3>You are currently in {{info.local}}</h3></div>
-        <div class = "item temp" id="tempId" ><h3>{{info.temp}}</h3></div>
-        <div class = "item weather" id="weatherId" ><h3>{{info.weather}}</h3></div>
-        <div class = "item logo" id="logoId" ><h3>{{info.graphic}}</h3></div>
+        <div class = "item city" id="cityId" > <h3>You are currently in {{vm.info.local}}</h3></div>
+        <div class = "item temp" id="tempId" ><h3>{{vm.info.temp}}</h3></div>
+        <div class = "item weather" id="weatherId" ><h3>{{vm.info.weather}}</h3></div>
+        <div class = "item logo" id="logoId" ><h3>{{vm.info.graphic}}</h3></div>
         <div class = "item search" id="searchId" >Find a New city
             <form>
                 <input type="text" name="newCity" value="Find Weather Somewhere Else..."><button>Search</button> </form>
-            
+
         </div>
         <div class = "item mylinks"> <h4>This site created by Alex Harrison. Check out my works here:</br> <a href="http://www.codepen.io/alexharrisonmusic">www.codepen.io/alexharrisonmusic </a></br>or</br><a href="http://www.github.com/alexharrisonmusic">www.github.com/alexharrisonmusic</a></h4></div>
-        
-        
+
+
     </div>
 
 
